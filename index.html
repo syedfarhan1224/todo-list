@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 26px;
+            color: #333;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            margin-right: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #764ba2;
+            transform: scale(1.05);
+        }
+
+        main {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        li:nth-child(odd) {
+            background: #eef1f8;
+        }
+
+        .complete {
+            text-decoration: line-through;
+            color: #777;
+        }
+
+        .delete, .edit {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .delete {
+            color: #d32f2f;
+        }
+
+        .delete:hover {
+            color: #b71c1c;
+        }
+
+        .edit {
+            color: #1976d2;
+            margin-right: 10px;
+        }
+
+        .edit:hover {
+            color: #0d47a1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Todo List</h1>
+            <div class="input-container">
+                <input type="text" placeholder="Enter your task" id="userInput" />
+                <button onclick="addRecord()">Add Item</button>
+            </div>
+        </header>
+        <main>
+            <ol id="clicks-history"></ol>
+        </main>
+    </div>
+
+    <script>
+        function addRecord() {
+            const userInput = document.getElementById('userInput');
+            const task = userInput.value.trim();
+
+            if (task === '') {
+                alert('Please enter a task.');
+                return;
+            }
+
+            const ol = document.getElementById('clicks-history');
+
+            const li = document.createElement('li');
+            const span = document.createElement('span');
+            span.textContent = task;
+
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.classList.add('edit');
+            editButton.onclick = function () {
+                const newTask = prompt('Edit your task:', task);
+                if (newTask !== null && newTask.trim() !== '') {
+                    span.textContent = newTask.trim();
+                }
+            };
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.classList.add('delete');
+            deleteButton.onclick = function () {
+                ol.removeChild(li);
+            };
+
+            li.appendChild(span);
+            li.appendChild(editButton);
+            li.appendChild(deleteButton);
+            ol.appendChild(li);
+
+            userInput.value = '';
+        }
+    </script>
+</body>
+
+</html>
